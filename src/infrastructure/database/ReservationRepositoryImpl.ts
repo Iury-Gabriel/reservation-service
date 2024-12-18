@@ -69,7 +69,7 @@ export default class ReservationRepositoryImpl extends ReservationRepository {
         if (!reservationData) return undefined;
     
         try {
-            const response = await axios.get(`http://localhost:3001/sites/${reservationData.siteId}`);
+            const response = await axios.get(`https://site-service-jbcm.onrender.com/sites/${reservationData.siteId}`);
             return response.data.ownerId;
         } catch (error) {
             console.error('Erro ao buscar o proprietário do site:', error);
