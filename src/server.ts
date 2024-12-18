@@ -38,6 +38,6 @@ app.get('/reservations/site/:siteId', (req: Request, res: Response) => reservati
 app.get('/reservations/user/:userId', (req: Request, res: Response) => reservationController.listAllReservationsPerUser(req, res));
 app.put('/reservations/:id/confirm', (req: Request, res: Response) => reservationController.confirmReservation(req, res));
 
-app.listen({ port: 3000, host: '0.0.0.0' }, () => {
+app.listen({ port: 3006, host: '0.0.0.0' }, () => {
     console.log("Server is running on http://localhost:3000");
 });

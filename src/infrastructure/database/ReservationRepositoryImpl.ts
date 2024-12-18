@@ -148,10 +148,10 @@ export default class ReservationRepositoryImpl extends ReservationRepository {
             include: {
                 site: {
                     select: {
-                        name: true,
-                    },
-                },
-            },
+                        name: true
+                    }
+                }
+            }
         });
     
         return reservationsData.map(reservationData => ({
