@@ -24,6 +24,8 @@ model Site {
   ownerId     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  reservations Reservation[]
 }
 
 model Reservation {
@@ -36,6 +38,8 @@ model Reservation {
   total           Float
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now())
+
+  site Site @relation(fields: [siteId], references: [id])
 }
 
 model User {

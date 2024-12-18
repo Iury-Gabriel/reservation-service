@@ -1,5 +1,5 @@
 import ReservationRepository from '../../domain/reservation/enterprise/repositories/ReservationRepository';
-import Reservation from '../../domain/reservation/enterprise/entities/Reservation';
+import Reservation, { ReservationWithSiteName } from '../../domain/reservation/enterprise/entities/Reservation';
 import axios from 'axios';
 import { PrismaClient } from '@prisma/client';
 
@@ -142,22 +142,32 @@ export default class ReservationRepositoryImpl extends ReservationRepository {
         ));
     }
 
-    async getAllPerUser(userId: string): Promise<Reservation[] | undefined> {
+    async getAllPerUser(userId: string): Promise<ReservationWithSiteName[] | undefined> {
         const reservationsData = await this.prisma.reservation.findMany({
             where: { userId },
+            include: {
+                site: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
         });
-        return reservationsData.map(reservationData => new Reservation(
-            reservationData.id,
-            reservationData.userId,
-            reservationData.siteId,
-            reservationData.dataReservation,
-            reservationData.dataCheckout,
-            reservationData.status,
-            reservationData.total,
-            reservationData.createdAt,
-            reservationData.updatedAt
-        ));
+    
+        return reservationsData.map(reservationData => ({
+            id: reservationData.id,
+            userId: reservationData.userId,
+            siteId: reservationData.siteId,
+            siteName: reservationData.site.name,
+            dataReservation: reservationData.dataReservation,
+            dataCheckout: reservationData.dataCheckout,
+            status: reservationData.status,
+            total: reservationData.total,
+            createdAt: reservationData.createdAt,
+            updatedAt: reservationData.updatedAt,
+        }));
     }
+    
 
     async getAllPerSite(siteId: string): Promise<Reservation[] | undefined> {
         const reservationsData = await this.prisma.reservation.findMany({

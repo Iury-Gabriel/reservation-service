@@ -1,3 +1,17 @@
+export interface ReservationWithSiteName {
+    id: string;
+    userId: string;
+    siteId: string;
+    siteName: string;
+    dataReservation: Date;
+    dataCheckout: Date;
+    status: string;
+    total: number;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+
 export default class Reservation {
     private id: string
     private userId: string

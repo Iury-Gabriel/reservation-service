@@ -1,4 +1,4 @@
-import Reservation from '../../enterprise/entities/Reservation';
+import Reservation, { ReservationWithSiteName } from '../../enterprise/entities/Reservation';
 import ReservationRepository from '../../enterprise/repositories/ReservationRepository';
 
 interface ListAllReservationsPerUserData {
@@ -12,7 +12,7 @@ export default class ListAllReservationPerUser {
         this.reservationRepository = reservationRepository;
     }
 
-    async execute(data: ListAllReservationsPerUserData): Promise<Reservation[] | undefined> {
+    async execute(data: ListAllReservationsPerUserData): Promise<ReservationWithSiteName[] | undefined> {
         return await this.reservationRepository.getAllPerUser(data.userId);
     }
     

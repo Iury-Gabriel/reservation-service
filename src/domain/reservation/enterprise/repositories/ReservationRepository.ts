@@ -1,5 +1,5 @@
 
-import Reservation from "../entities/Reservation";
+import Reservation, { ReservationWithSiteName } from "../entities/Reservation";
 
 export default abstract class ReservationRepository {
     abstract save(reservation: Reservation): Promise<Reservation | undefined>;
@@ -14,7 +14,7 @@ export default abstract class ReservationRepository {
 
     abstract getAll(): Promise<Reservation[] | undefined>;
 
-    abstract getAllPerUser(userId: string): Promise<Reservation[] | undefined>;
+    abstract getAllPerUser(userId: string): Promise<ReservationWithSiteName[] | undefined>;
 
     abstract getAllPerSite(siteId: string): Promise<Reservation[] | undefined>;
 
