@@ -5,6 +5,7 @@ import DeleteReservation from '../../domain/reservation/application/use-cases/de
 import ListAllReservationsPerSite from '../../domain/reservation/application/use-cases/list-all-reservations-per-site';
 import ListAllReservationsPerUser from '../../domain/reservation/application/use-cases/list-all-reservations-per-user';
 import ConfirmReservation from '../../domain/reservation/application/use-cases/confirm-reservation';
+import GetReservationById from '../../domain/reservation/application/use-cases/get-reservation';
 
 export default class ReservationController {
     private checkSiteAvailabilityUseCase: CheckSiteAvailability;
@@ -13,6 +14,7 @@ export default class ReservationController {
     private listAllReservationsPerSiteUseCase: ListAllReservationsPerSite;
     private listAllReservationsPerUserUseCase: ListAllReservationsPerUser;
     private confirmReservationUseCase: ConfirmReservation;
+    private getReservationByIdUseCase: GetReservationById;
 
     constructor(
         checkSiteAvailabilityUseCase: CheckSiteAvailability,
@@ -20,7 +22,8 @@ export default class ReservationController {
         deleteReservationUseCase: DeleteReservation,
         listAllReservationsPerSiteUseCase: ListAllReservationsPerSite,
         listAllReservationsPerUserUseCase: ListAllReservationsPerUser,
-        confirmReservationUseCase: ConfirmReservation
+        confirmReservationUseCase: ConfirmReservation,
+        getReservationByIdUseCase: GetReservationById
     ) {
         this.checkSiteAvailabilityUseCase = checkSiteAvailabilityUseCase;
         this.createReservationUseCase = createReservationUseCase;
@@ -28,6 +31,7 @@ export default class ReservationController {
         this.listAllReservationsPerSiteUseCase = listAllReservationsPerSiteUseCase;
         this.listAllReservationsPerUserUseCase = listAllReservationsPerUserUseCase;
         this.confirmReservationUseCase = confirmReservationUseCase; 
+        this.getReservationByIdUseCase = getReservationByIdUseCase;
     }
 
     async checkAvailability(req: Request, res: Response): Promise<void> {
@@ -86,6 +90,16 @@ export default class ReservationController {
             res.status(200).json(reservations);
         } catch (error: any) {
             res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getReservationById(req: Request, res: Response): Promise<void> {
+        try {
+            const { reservationId } = req.params;
+            const reservation = await this.getReservationByIdUseCase.execute({reservationId});
+            res.status(200).json(reservation);
+        } catch (error: any) {
+            
         }
     }
 
