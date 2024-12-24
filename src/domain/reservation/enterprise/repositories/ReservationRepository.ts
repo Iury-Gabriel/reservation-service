@@ -4,7 +4,7 @@ import Reservation, { ReservationWithSiteName } from "../entities/Reservation";
 export default abstract class ReservationRepository {
     abstract save(reservation: Reservation): Promise<Reservation | undefined>;
 
-    abstract findById(id: string): Promise<Reservation | undefined>;
+    abstract findById(id: string): Promise<ReservationWithSiteName | undefined>;
 
     abstract findConflictingReservations(siteId: string, dataReservation: Date, dataCheckout: Date): Promise<Reservation[]>;
 

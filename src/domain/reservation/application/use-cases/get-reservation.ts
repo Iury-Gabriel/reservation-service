@@ -1,4 +1,4 @@
-import Reservation from '../../enterprise/entities/Reservation';
+import Reservation, { ReservationWithSiteName } from '../../enterprise/entities/Reservation';
 import ReservationRepository from '../../enterprise/repositories/ReservationRepository';
 
 interface GetReservation {
@@ -12,7 +12,7 @@ export default class GetReservationById {
         this.reservationRepository = reservationRepository;
     }
 
-    async execute(data: GetReservation): Promise<Reservation | undefined> {
+    async execute(data: GetReservation): Promise<ReservationWithSiteName | undefined> {
         return await this.reservationRepository.findById(data.reservationId);
     }
     

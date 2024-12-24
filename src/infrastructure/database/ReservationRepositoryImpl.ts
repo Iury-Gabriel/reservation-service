@@ -38,24 +38,32 @@ export default class ReservationRepositoryImpl extends ReservationRepository {
         );
     }
 
-    async findById(id: string): Promise<Reservation | undefined> {
+    async findById(id: string): Promise<ReservationWithSiteName | undefined> {
         const reservationData = await this.prisma.reservation.findUnique({
             where: { id },
+            include: {
+                site: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
         });
 
         if (!reservationData) return undefined;
 
-        return new Reservation(
-            reservationData.id,
-            reservationData.userId,
-            reservationData.siteId,
-            reservationData.dataReservation,
-            reservationData.dataCheckout,
-            reservationData.status,
-            reservationData.total,
-            reservationData.createdAt,
-            reservationData.updatedAt
-        );
+        return {
+            id: reservationData.id,
+            userId: reservationData.userId,
+            siteId: reservationData.siteId,
+            siteName: reservationData.site.name,
+            dataReservation: reservationData.dataReservation,
+            dataCheckout: reservationData.dataCheckout,
+            status: reservationData.status,
+            total: reservationData.total,
+            createdAt: reservationData.createdAt,
+            updatedAt: reservationData.updatedAt,
+        }
     }
 
     async getOwnerOfSiteByReservationId(id: string): Promise<string | undefined> {
